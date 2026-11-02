@@ -148,15 +148,15 @@ footer{margin-top:16px;color:#6b7385;font-size:12px;line-height:1.8}
 
 <script>
 (function(){
-  const KEY='mengmeng_roster_v3';
+  const KEY='mengmeng_roster_v4';
   const PRESET=[
-    ['咚咚','萌萌哒双皮奶'],['冬川','萌萌哒豆沙包'],['夜幕','萌萌哒蛋黄酥'],
-    ['老王','萌萌哒奶黄包'],['正哥','萌萌哒叉烧包'],['洋哥','萌萌哒菠萝包'],
-    ['萌音','萌萌哒小蛋糕'],['奶盖','萌萌哒瑞士卷'],['乱漩','萌萌哒苹果派'],
-    ['强哥','萌萌哒马卡龙'],['微光','萌萌哒甜甜圈'],['小故事','萌萌哒小布丁'],
-    ['哈基米','萌萌哒烧仙草'],['熊猫','萌萌哒芋泥包'],['苏木','萌萌哒铜锣烧'],
-    ['初心','萌萌哒栗子烧'],['希望','萌萌哒雪媚娘']
-  ].map(a=>({nick:a[0],gid:a[1],job:'',red:'',kaihuang:'',wuxun:''}));
+    ['咚咚','萌萌哒双皮奶','神行'],['冬川','萌萌哒豆沙包','司仓'],['夜幕','萌萌哒蛋黄酥','青囊'],
+    ['老王','萌萌哒奶黄包','司仓'],['正哥','萌萌哒叉烧包','青囊'],['洋哥','萌萌哒菠萝包','青囊'],
+    ['萌音','萌萌哒小蛋糕','青囊'],['奶盖','萌萌哒瑞士卷','天工'],['乱漩','萌萌哒苹果派','司仓'],
+    ['强哥','萌萌哒马卡龙','司仓'],['微光','萌萌哒甜甜圈','天工'],['小故事','萌萌哒小布丁','司仓'],
+    ['哈基米','萌萌哒烧仙草','司仓'],['熊猫','萌萌哒芋泥包','神行'],['苏木','萌萌哒铜锣烧','神行'],
+    ['初心','萌萌哒栗子烧','天工'],['希望','萌萌哒雪媚娘','天工']
+  ].map(a=>({nick:a[0],gid:a[1],job:a[2],red:'',kaihuang:'',wuxun:''}));
 
   const REDS=['千抽一','千抽二','千抽三','千抽四','千抽五','千抽六','千抽七','千抽八','千抽九',
               '万抽一','万抽二','万抽三','万抽四','万抽五','万抽六','万抽七','万抽八','万抽九','万抽大圆满',
@@ -172,6 +172,13 @@ footer{margin-top:16px;color:#6b7385;font-size:12px;line-height:1.8}
     try{
       const raw=localStorage.getItem(KEY);
       if(raw){const d=JSON.parse(raw); if(Array.isArray(d)&&d.length){rows=d;return;}}
+      const old=localStorage.getItem('mengmeng_roster_v3');
+      if(old){const d=JSON.parse(old);
+        if(Array.isArray(d)&&d.length){
+          const jm={}; PRESET.forEach(p=>jm[p.gid]=p.job);
+          d.forEach(r=>{ if(!r.job&&jm[r.gid]) r.job=jm[r.gid]; });
+          rows=d; save(); return;
+        }}
     }catch(e){}
     rows=JSON.parse(JSON.stringify(PRESET));
   }
